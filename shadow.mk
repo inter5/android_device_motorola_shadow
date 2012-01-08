@@ -213,10 +213,10 @@ PRODUCT_PACKAGES += \
     shadow_releaseutils-update_kernel
 
 # copy all vendor (motorola) kernel modules to system/lib/modules
-PRODUCT_COPY_FILES += $(shell \
-    find vendor/motorola/shadow/lib/modules -name '*.ko' \
-    | sed -r 's/^\/?(.*\/)([^/ ]+)$$/\1\2:system\/lib\/modules\/\2/' \
-    | tr '\n' ' ')
+#PRODUCT_COPY_FILES += $(shell \
+#    find vendor/motorola/shadow/lib/modules -name '*.ko' \
+#    | sed -r 's/^\/?(.*\/)([^/ ]+)$$/\1\2:system\/lib\/modules\/\2/' \
+#    | tr '\n' ' ')
 
 # copy all kernel modules under the "modules" directory to system/lib/modules
 PRODUCT_COPY_FILES += $(shell \
