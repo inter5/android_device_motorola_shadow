@@ -9,7 +9,14 @@ ro.default_usb_mode=4
 ro.usb.use_custom_service=1
 
 #Use 1% battery increments
-ro.product.use_charge_counter=1
+#currently doesn't work with GB kernel
+#ro.product.use_charge_counter=1
+
+# LED charging indicator mode
+# off = keep LED off during charging
+# white = white LED for 'charging', green LED for 'charged'
+# rgb = mixed yellowish LED for 'charging', green LED for 'charged'
+persist.sys.charge_led=off
 
 # BEGIN Motorola, a18772, 05/19/2010, IKSHADOW-5584
 # Add 411 to DAN List for VZW.
@@ -20,7 +27,7 @@ persist.ril.modem.mode =1
 # This defines the max event window manager can
 # handle in 1 s. We may adjust this # for performance
 # reason later
-windowsmgr.max_events_per_sec=55
+windowsmgr.max_events_per_sec=95
 # This defines the min duration between two pointer event
 ro.min_pointer_dur=10
 

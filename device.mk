@@ -133,6 +133,7 @@ PRODUCT_PACKAGES += \
     libOMX.TI.Video.Decoder \
     libOMX.TI.Video.encoder \
     libVendor_ti_omx \
+    bootmenu \
     sensors.shadow \
     lights.shadow \
     audio.primary.shadow \
