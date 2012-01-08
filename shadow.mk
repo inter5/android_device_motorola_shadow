@@ -28,6 +28,8 @@ PRODUCT_AAPT_CONFIG := normal hdpi xhdpi
 PRODUCT_AAPT_PREF_CONFIG := hdpi
 
 PRODUCT_COPY_FILES += \
+    device/motorola/shadow/init.rc:root/init.rc \
+    device/motorola/shadow/ueventd.rc:root/ueventd.rc \
     device/motorola/shadow/init.mapphone_cdma.rc:root/init.mapphone_cdma.rc \
     device/motorola/shadow/ueventd.mapphone_cdma.rc:root/ueventd.mapphone_cdma.rc
 
@@ -88,7 +90,15 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.media.panorama.frameres=1280x720 \
     ro.media.capture.prevfps=28 \
     ro.mot.hw.uaprof=http://uaprof.motorola.com/phoneconfig/MotoMB200/profile/MotoMB200.rdf \
-    ro.build.version.full=Blur_Version.4.5.602.MB810.Verizon.en.US
+    ro.build.version.full=Blur_Version.4.5.602.MB810.Verizon.en.US \
+    ro.com.google.locationfeatures=1 \
+    ro.media.dec.jpeg.memcap=20000000 \
+    ro.media.dec.aud.wma.enabled=1 \
+    ro.media.dec.vid.wmv.enabled=1 \
+    dalvik.vm.lockprof.threshold=500 \
+    ro.kernel.android.checkjni=0 \
+    dalvik.vm.dexopt-data-only=1 \
+    ro.vold.umsdirtyratio=20
 #############################################################
 #    debug.mot.extwmlog=1 \
 #    debug.mot.extamlog=1 \
@@ -111,7 +121,6 @@ PRODUCT_COPY_FILES += \
     device/motorola/shadow/media_profiles.xml:system/etc/media_profiles.xml \
     device/motorola/shadow/01_Vendor_ti_omx.cfg:system/etc/01_Vendor_ti_omx.cfg
 
-
 PRODUCT_PACKAGES += \
     librs_jni \
     tiwlan.ini \
@@ -122,23 +131,66 @@ PRODUCT_PACKAGES += \
     libtiOsLib \
     wlan_loader \
     libCustomWifi \
+    wpa_cli wpa_supplicant libwpa_client \
     wpa_supplicant.conf \
     dhcpcd.conf \
     libOMX.TI.AAC.encode \
+    libOMX.TI.AAC.decode \
+    libOMX.TI.AMR.decode \
     libOMX.TI.AMR.encode \
     libOMX.TI.WBAMR.encode \
-    libOMX.TI.JPEG.Encoder \
-    libLCML \
-    libOMX_Core \
+    libOMX.TI.MP3.decode \
+    libOMX.TI.WBAMR.decode \
+    libOMX.TI.WMA.decode \
     libOMX.TI.Video.Decoder \
     libOMX.TI.Video.encoder \
+    libLCML \
+    libOMX_Core \
+    libfnc \
+    iwmulticall \
+    hostap \
+    hostapd.conf \
+    libhostapdcli \
+    bootmenu \
+    utility_lsof \
+    static_busybox \
+    hijack_boot_2nd-init \
     libVendor_ti_omx \
     bootmenu \
     sensors.shadow \
     lights.shadow \
-    audio.primary.shadow \
     Usb \
-    postrecoveryboot.sh
+    postrecoveryboot.sh \
+    Superuser \
+    su
+
+# ICS sound
+PRODUCT_PACKAGES += \
+    hcitool hciattach hcidump \
+    libaudioutils audio.a2dp.default audio_policy.shadow \
+    libaudiohw_legacy audio.primary.omap3
+
+# ICS graphics
+PRODUCT_PACKAGES += libGLESv2 libEGL libGLESv1_CM
+
+# TO FIX for ICS
+PRODUCT_PACKAGES += gralloc.default hwcomposer.default
+
+# for jpeg hw encoder/decoder
+PRODUCT_PACKAGES += libskiahw libOMX.TI.JPEG.Encoder libOMX.TI.JPEG.decoder libstagefrighthw
+
+# video post processor
+PRODUCT_PACKAGES += libOMX.TI.VPP
+
+PRODUCT_PACKAGES += e2fsck
+
+# Add DroidSSHd (dropbear) Management App - tpruvot/android_external_droidsshd @ github
+PRODUCT_PACKAGES += DroidSSHd dropbear dropbearkey sftp-server scp ssh
+
+# CM9 apps
+PRODUCT_PACKAGES += AndroidTerm
+PRODUCT_PACKAGES += Trebuchet FileManager Torch
+#PRODUCT_PACKAGES += DSPManager libcyanogen-dsp
 
 # we have enough storage space to hold precise GC data
 PRODUCT_TAGS += dalvik.gc.type-precise
@@ -160,6 +212,12 @@ PRODUCT_PACKAGES += \
     shadow_releaseutils-tune2fs \
     shadow_releaseutils-update_kernel
 
+# copy all vendor (motorola) kernel modules to system/lib/modules
+PRODUCT_COPY_FILES += $(shell \
+    find vendor/motorola/shadow/lib/modules -name '*.ko' \
+    | sed -r 's/^\/?(.*\/)([^/ ]+)$$/\1\2:system\/lib\/modules\/\2/' \
+    | tr '\n' ' ')
+
 # copy all kernel modules under the "modules" directory to system/lib/modules
 PRODUCT_COPY_FILES += $(shell \
     find device/motorola/shadow/modules -name '*.ko' \
@@ -175,9 +233,36 @@ endif
 PRODUCT_COPY_FILES += \
     $(LOCAL_KERNEL):kernel
 
+# Blobs
+$(call inherit-product, device/motorola/shadow/shadow-blobs.mk)
+
+# Live wallpaper packages
+PRODUCT_PACKAGES += \
+        LiveWallpapers \
+        LiveWallpapersPicker \
+        MagicSmokeWallpapers \
+        VisualizationWallpapers
+
+# Publish that we support the live wallpaper feature.
+PRODUCT_COPY_FILES += \
+        packages/wallpapers/LivePicker/android.software.live_wallpaper.xml:/system/etc/permissions/android.software.live_wallpaper.xml
+
+# ICS USB Packages
+PRODUCT_PACKAGES += com.android.future.usb.accessory
+
+PRODUCT_COPY_FILES += \
+        frameworks/base/data/etc/android.hardware.usb.host.xml:system/etc/permissions/android.hardware.usb.host.xml \
+        frameworks/base/data/etc/android.hardware.usb.accessory.xml:system/etc/permissions/android.hardware.usb.accessory.xml \
+
 $(call inherit-product-if-exists, vendor/motorola/shadow/shadow-vendor.mk)
 
-# stuff common to all Motorola phones
+# stuff common to all moto phones
 $(call inherit-product, device/motorola/common/common_hijack.mk)
 
 $(call inherit-product, build/target/product/full_base.mk)
+
+# Should be after the full_base include, which loads languages_full
+PRODUCT_LOCALES += hdpi
+
+PRODUCT_NAME := full_shadow
+PRODUCT_DEVICE := MB810

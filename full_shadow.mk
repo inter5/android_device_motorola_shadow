@@ -24,19 +24,25 @@
 # Get the long list of APNs
 PRODUCT_COPY_FILES := device/sample/etc/apns-full-conf.xml:system/etc/apns-conf.xml
 
-# Camera
-PRODUCT_PACKAGES := \
-    Camera
+PRODUCT_PACKAGES += \
+        LiveWallpapers \
+        LiveWallpapersPicker \
+        MagicSmokeWallpapers \
+        VisualizationWallpapers \
+        librs_jni
+
+PRODUCT_PROPERTY_OVERRIDES := \
+        net.dns1=8.8.8.8 \
+        net.dns2=8.8.4.4
 
 # Inherit from those products. Most specific first.
 $(call inherit-product, $(SRC_TARGET_DIR)/product/full_base_telephony.mk)
-# This is where we'd set a backup provider if we had one
-#$(call inherit-product, device/sample/products/backup_overlay.mk)
-# Inherit from maguro device
-$(call inherit-product, device/motorola/shadow/device.mk)
+$(call inherit-product, frameworks/base/build/phone-hdpi-512-dalvik-heap.mk)
+$(call inherit-product, device/motorola/shadow/shadow.mk)
 
 # Set those variables here to overwrite the inherited values.
 PRODUCT_NAME := full_shadow
 PRODUCT_DEVICE := shadow
 PRODUCT_BRAND := Android
-PRODUCT_MODEL := Full AOSP on Shadow
+PRODUCT_MODEL := MB810
+PRODUCT_MANUFACTURER := moto
