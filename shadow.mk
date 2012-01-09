@@ -22,11 +22,6 @@
 # The gps config appropriate for this device
 $(call inherit-product, device/common/gps/gps_us_supl.mk)
 
-## (1) First, the most specific values, i.e. the aspects that are specific to CDMA
-
-PRODUCT_AAPT_CONFIG := normal hdpi xhdpi
-PRODUCT_AAPT_PREF_CONFIG := hdpi
-
 PRODUCT_COPY_FILES += \
     device/motorola/shadow/init.rc:root/init.rc \
     device/motorola/shadow/ueventd.rc:root/ueventd.rc \
@@ -45,12 +40,12 @@ PRODUCT_PROPERTY_OVERRIDES += \
     persist.ril.features=0x07 \
     persist.ril.mux.retries=500 \
     persist.ril.mux.sleep=2 \
-    ro.default_usb_mode=0 \
+    ro.default_usb_mode=4 \
     ro.product.multi_touch_enabled=true \
     ro.product.max_num_touch=2 \
     ro.telephony.sms_segment_size=160 \
     ro.setupwizard.mode=OPTIONAL \
-    ro.com.google.gmsversion=2.3_r3 \
+    ro.com.google.gmsversion=2.2_r7 \
     ro.telephony.call_ring.multiple=false \
     ro.telephony.call_ring.delay=1000 \
     ro.url.safetylegal=http://www.motorola.com/staticfiles/Support/legal/?model=A855 \
@@ -66,12 +61,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.cdma.homesystem=64,65,76,77,78,79,80,81,82,83 \
     ro.cdma.data_retry_config=default_randomization=2000,0,0,120000,180000,540000,960000 \
     ro.com.motorola.smartsensor=true \
-    ro.media.camcorder.720p=3gp,m4v,30,10000000,aac,96000,44100,2 \
-    ro.media.camcorder.d1NTSC=3gp,h264,30,6000000,aac,96000,44100,2 \
-    ro.media.camcorder.vga=3gp,h264,30,4000000,aac,96000,44100,2 \
-    ro.media.camcorder.cif=3gp,h264,30,1500000,aac,96000,44100,2 \
-    ro.media.camcorder.qvga=3gp,h264,15,500000,aac,32000,16000,2 \
-    ro.media.camcorder.mms=3gp,h264,15,128000,amrnb,12200,8000,1 \
+    ro.media.sensor.orient=90 \
     ro.media.capture.maxres=8m \
     ro.media.capture.fast.fps=4 \
     ro.media.capture.slow.fps=60 \
@@ -83,12 +73,6 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.media.camera.skew=0.0 \
     ro.media.camera.distortion=0.0,0.0,0.0,0.0,0.0 \
     ro.media.camera.calresolution=3264,2448 \
-    ro.media.capture.shuttertone=1 \
-    ro.media.capture.torchIntensity=50 \
-    ro.media.sensor.orient=90 \
-    ro.media.panorama.defres=2048x1536 \
-    ro.media.panorama.frameres=1280x720 \
-    ro.media.capture.prevfps=28 \
     ro.mot.hw.uaprof=http://uaprof.motorola.com/phoneconfig/MotoMB200/profile/MotoMB200.rdf \
     ro.build.version.full=Blur_Version.4.5.602.MB810.Verizon.en.US \
     ro.com.google.locationfeatures=1 \
@@ -118,8 +102,7 @@ PRODUCT_COPY_FILES += \
 
 # media config xml file
 PRODUCT_COPY_FILES += \
-    device/motorola/shadow/media_profiles.xml:system/etc/media_profiles.xml \
-    device/motorola/shadow/01_Vendor_ti_omx.cfg:system/etc/01_Vendor_ti_omx.cfg
+    device/motorola/shadow/media_profiles.xml:system/etc/media_profiles.xml
 
 PRODUCT_PACKAGES += \
     librs_jni \
@@ -161,7 +144,6 @@ PRODUCT_PACKAGES += \
     lights.shadow \
     Usb \
     CMSettings \
-    postrecoveryboot.sh \
     Superuser \
     su
 
@@ -204,14 +186,11 @@ PRODUCT_COPY_FILES += \
     device/motorola/shadow/mount_ext3.sh:system/bin/mount_ext3.sh
 
 # these need to be here for the installer, just put them here for now
-PRODUCT_PACKAGES += \
-    shadow_releaseutils-check_kernel \
-    shadow_releaseutils-finalize_release \
-    shadow_releaseutils-gb_kern-update-binary \
-    shadow_releaseutils-gb_kern-update.zip \
-    shadow_releaseutils-mke2fs \
-    shadow_releaseutils-tune2fs \
-    shadow_releaseutils-update_kernel
+PRODUCT_COPY_FILES += \
+    device/motorola/shadow/releaseutils/mke2fs:system/etc/releaseutils/mke2fs \
+    device/motorola/shadow/releaseutils/tune2fs:system/etc/releaseutils/tune2fs \
+    device/motorola/shadow/releaseutils/check_kernel:system/etc/releaseutils/check_kernel \
+    device/motorola/shadow/releaseutils/finalize_release:system/etc/releaseutils/finalize_release
 
 # copy all vendor (motorola) kernel modules to system/lib/modules
 #PRODUCT_COPY_FILES += $(shell \
@@ -265,5 +244,5 @@ $(call inherit-product, build/target/product/full_base.mk)
 # Should be after the full_base include, which loads languages_full
 PRODUCT_LOCALES += hdpi
 
-PRODUCT_NAME := full_shadow
-PRODUCT_DEVICE := MB810
+PRODUCT_NAME := generic_shadow
+PRODUCT_DEVICE := shadow

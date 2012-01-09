@@ -40,8 +40,6 @@ TARGET_BOARD_PLATFORM := omap3
 TARGET_CPU_ABI := armeabi-v7a
 TARGET_CPU_ABI2 := armeabi
 TARGET_ARCH_VARIANT := armv7-a-neon
-TARGET_ARCH_VARIANT_CPU := cortex-a8
-TARGET_ARCH_VARIENT_FPU := neon
 TARGET_GLOBAL_CFLAGS += -mtune=cortex-a8
 TARGET_GLOBAL_CPPFLAGS += -mtune=cortex-a8
 TARGET_OMAP3 := true
@@ -70,14 +68,13 @@ BOARD_USE_YUV422I_DEFAULT_COLORFORMAT := true
 BOARD_EGL_CFG := device/motorola/shadow/egl.cfg
 DEFAULT_FB_NUM := 0
 
-BOARD_KERNEL_CMDLINE := console=ttyS2,115200n8 rw mem=498M@0x80C00000 vram=20M omapgpu.vram=0:4M,1:16M,2:16MT init=/init ip=off motobldlabel=none mmcparts=mmcblk1:p1(mbmloader),p2(mbm),p3(mbmbackup),p4(ebr),p5(bploader),p6(cdt.bin),p7(pds),p8(lbl),p9(lbl_backup),p10(logo.bin),p11(sp),p12(devtree),p13(devtree_backup),p14(bpsw),p15(boot),p16(recovery),p17(cdrom),p18(misc),p19(cid),p20(kpanic),p21(system),p22(cache),p23(preinstall),p24(userdata)
+BOARD_KERNEL_CMDLINE := console=ttyS2,115200n8 rw mem=498M@0x80C00000 init=/init ip=off motobldlabel=none mmcparts=mmcblk1:p1(mbmloader),p2(mbm),p3(mbmbackup),p4(ebr),p5(bploader),p6(cdt.bin),p7(pds),p8(lbl),p9(lbl_backup),p10(logo.bin),p11(sp),p12(devtree),p13(devtree_backup),p14(bpsw),p15(boot),p16(recovery),p17(cdrom),p18(misc),p19(cid),p20(kpanic),p21(system),p22(cache),p23(preinstall),p24(userdata)
 BOARD_KERNEL_BASE := 0x10000000
 
 BOARD_HAVE_BLUETOOTH := true
 BOARD_CUSTOM_BLUEDROID := ../../../device/motorola/shadow/bluedroid.c
 
 BOARD_EGL_CFG := device/motorola/shadow/egl.cfg
-BOARD_USE_LEGACY_TOUCHSCREEN := true
 
 HARDWARE_OMX := true
 TARGET_USE_OMX_RECOVERY := true
@@ -118,18 +115,6 @@ TARGET_PREBUILT_RECOVERY_KERNEL := device/motorola/shadow/kernel
 
 # OMX
 HARDWARE_OMX := true
-ifdef HARDWARE_OMX
-OMX_VENDOR := ti
-OMX_VENDOR_WRAPPER := TI_OMX_Wrapper
-BOARD_OPENCORE_LIBRARIES := libOMX_Core
-BOARD_OPENCORE_FLAGS := -DHARDWARE_OMX=1
-endif
-
-# OMAP
-#OMAP_ENHANCEMENT := true
-#ifdef OMAP_ENHANCEMENT
-#COMMON_GLOBAL_CFLAGS += -DOMAP_ENHANCEMENT -DTARGET_OMAP4
-#endif
 
 # FM Radio
 BOARD_HAVE_FM_RADIO := true
@@ -150,9 +135,9 @@ TARGET_USERIMAGES_USE_EXT4 := false
 COMMON_GLOBAL_CFLAGS += -DMISSING_EGL_EXTERNAL_IMAGE -DMISSING_EGL_PIXEL_FORMAT_YV12 -DMISSING_GRALLOC_BUFFERS
 
 ifndef SHADOW_DEV_PHONE
+TARGET_PROVIDES_RELEASETOOLS := true
 TARGET_RELEASETOOL_OTA_FROM_TARGET_SCRIPT := device/motorola/shadow/releasetools/shadow_ota_from_target_files
 
-BOARD_USES_AUDIO_LEGACY := true
 BOARD_USE_LEGACY_TOUCHSCREEN := true
 TARGET_PROVIDES_LIBAUDIO := true
 BOARD_USES_GPSSHIM := false
@@ -161,6 +146,16 @@ BOARD_USES_GPSSHIM := false
 
 # shadow requires the common boot hijack
 TARGET_NEEDS_MOTOROLA_HIJACK := true
+
+# MOTOROLA
++USE_MOTOROLA_CODE := true
+ifdef USE_MOTOROLA_CODE
+COMMON_GLOBAL_CFLAGS += -DUSE_MOTOROLA_CODE
+endif
+USE_MOTOROLA_USERS := true
+ifdef USE_MOTOROLA_USERS
+COMMON_GLOBAL_CFLAGS += -DUSE_MOTOROLA_USERS
+endif
 
 BOARD_USES_BOOTMENU := true
 
@@ -171,4 +166,3 @@ endif
 BOARD_ALWAYS_INSECURE := true
 BOARD_HAS_LARGE_FILESYSTEM := true
 BOARD_MKE2FS := device/motorola/shadow/mke2fs
-BOARD_HAS_SMALL_RECOVERY := true
