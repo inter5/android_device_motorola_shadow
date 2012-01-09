@@ -162,6 +162,8 @@ BOARD_USES_GPSSHIM := false
 # shadow requires the common boot hijack
 TARGET_NEEDS_MOTOROLA_HIJACK := true
 
+BOARD_USES_BOOTMENU := true
+
 TARGET_RECOVERY_PRE_COMMAND := "echo 1 > /data/.recovery_mode; sync;"
 TARGET_RECOVERY_PRE_COMMAND_CLEAR_REASON := true
 endif
