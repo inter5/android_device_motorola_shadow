@@ -160,6 +160,7 @@ PRODUCT_PACKAGES += \
     sensors.shadow \
     lights.shadow \
     Usb \
+    CMSettings \
     postrecoveryboot.sh \
     Superuser \
     su

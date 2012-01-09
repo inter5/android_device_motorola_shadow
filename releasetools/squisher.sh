@@ -29,7 +29,8 @@ cp -f $DEVICE_TOP/updater-script $REPACK/ota/META-INF/com/google/android/updater
 
 cp -f $DEVICE_OUT/symbols/sbin/adbd $REPACK/ota/system/bin/adbd
 
-cp -rf $DEVICE_TOP/bootmenu $REPACK/ota/system/bootmenu
+mkdir -p $REPACK/ota/system/bootmenu
+cp -rf $DEVICE_TOP/bootmenu/* $REPACK/ota/system/bootmenu/
 
 mkdir -p $REPACK/ota/system/bootmenu/2nd-init
 cp -f $DEVICE_OUT/root/init $REPACK/ota/system/bootmenu/2nd-init/init
