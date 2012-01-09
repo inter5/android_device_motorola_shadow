@@ -67,7 +67,7 @@ WIFI_DRIVER_FW_AP_PATH      := "/system/etc/wifi/fw_tiwlan_ap.bin"
 WPA_SUPPL_APPROX_USE_RSSI   := true
 
 BOARD_USE_YUV422I_DEFAULT_COLORFORMAT := true
-BOARD_EGL_CFG := device/motorola/jordan/egl.cfg
+BOARD_EGL_CFG := device/motorola/shadow/egl.cfg
 DEFAULT_FB_NUM := 0
 
 BOARD_KERNEL_CMDLINE := console=ttyS2,115200n8 rw mem=498M@0x80C00000 vram=20M omapgpu.vram=0:4M,1:16M,2:16MT init=/init ip=off motobldlabel=none mmcparts=mmcblk1:p1(mbmloader),p2(mbm),p3(mbmbackup),p4(ebr),p5(bploader),p6(cdt.bin),p7(pds),p8(lbl),p9(lbl_backup),p10(logo.bin),p11(sp),p12(devtree),p13(devtree_backup),p14(bpsw),p15(boot),p16(recovery),p17(cdrom),p18(misc),p19(cid),p20(kpanic),p21(system),p22(cache),p23(preinstall),p24(userdata)
@@ -137,7 +137,7 @@ BOARD_FM_DEVICE := wl1271
 COMMON_GLOBAL_CFLAGS += -DHAVE_FM_RADIO
 
 # Override cyanogen squisher to customize our update zip package
-TARGET_CUSTOM_RELEASETOOL := ./device/motorola/jordan/releasetools/squisher
+TARGET_CUSTOM_RELEASETOOL := ./device/motorola/shadow/releasetools/squisher
 
 ## ICS specifics
 

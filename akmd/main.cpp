@@ -85,9 +85,9 @@ void hero_mainloop(int magnetometer_gain, int temperature_zero)
     delete accelerometer_reader;
 }
 
-void jordan_mainloop(int magnetometer_gain, int temperature_zero)
+void shadow_mainloop(int magnetometer_gain, int temperature_zero)
 {
-    LOGD("entering jordan main loop");
+    LOGD("entering shadow main loop");
     AKM8973_2_6_29* magnetometer_reader = new AKM8973_2_6_29(magnetometer_gain);
     ChipReader* accelerometer_reader = new KXTF9();
     ChipReader* orientation_reader = new OrientationAdapter(accelerometer_reader, magnetometer_reader);
@@ -129,7 +129,7 @@ int main(int argc, char **argv)
     if (argc != 4) {
         printf("Usage: akmd <device> <mg> <tz>\n");
         printf("\n");
-        printf("device = jordan or hero\n");
+        printf("device = shadow or hero\n");
         printf("mg = magnetometer gain (0.4 dB)\n");
         printf("tz = temperature zero offset (C)\n");
         printf("\n");
@@ -142,8 +142,8 @@ int main(int argc, char **argv)
 
     LOGI("Akmd: opening devices");
 
-    if (strcmp(argv[1], "jordan") == 0) {
-        jordan_mainloop(magnetometer_gain, temperature_zero);
+    if (strcmp(argv[1], "shadow") == 0) {
+        shadow_mainloop(magnetometer_gain, temperature_zero);
     } else if (strcmp(argv[1], "hero") == 0) {
         hero_mainloop(magnetometer_gain, temperature_zero);
     } else {

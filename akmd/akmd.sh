@@ -2,7 +2,7 @@
 
 PATH=/system/bin:$PATH
 
-DEVICE="jordan"
+DEVICE="shadow"
 MAGNETIC_GAIN="5" # 0 .. 15
 TEMPERATURE_ZERO="112" # 0 .. 255
 
